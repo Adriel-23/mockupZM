@@ -1,0 +1,106 @@
+.product-card {
+    background-color: var(--color-surface-container-lowest);
+    border-radius: var(--radius-base);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--color-surface-container-highest);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.product-card-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-surface-container-low);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.product-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.product-card-header {
+    margin-bottom: 20px;
+}
+
+.product-card-header h3 {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-body-md);
+    color: var(--color-on-surface);
+    margin: 0 0 8px 0;
+}
+
+.product-card-desc {
+    font-family: var(--font-body);
+    font-size: var(--font-size-label-sm);
+    color: var(--color-on-surface-variant);
+    opacity: 0.8;
+    margin: 0;
+    line-height: var(--line-height-body-md);
+}
+
+.product-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.product-price {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-md);
+    color: var(--color-on-surface-variant);
+    font-weight: 500;
+}
+
+.add-to-cart-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: var(--color-primary-container);
+}
+
+.add-to-cart-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}

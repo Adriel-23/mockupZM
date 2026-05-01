@@ -1,0 +1,308 @@
+/* Contenedor General */
+.cart-page-container {
+    max-width: var(--container-max, 1200px);
+    margin: 100px auto 60px auto; /* Margen superior para librar el Header fijo */
+    padding: 0 20px;
+    font-family: var(--font-body, "Manrope", sans-serif);
+}
+
+.cart-header {
+    margin-bottom: 40px;
+}
+
+.cart-header h1 {
+    font-family: var(--font-heading, "Noto Serif", serif);
+    font-size: var(--font-size-headline-lg, 36px);
+    color: var(--color-on-surface, #1a1c1b);
+    margin-bottom: 8px;
+}
+
+.cart-header p {
+    color: var(--color-text-muted, #5a413d);
+    font-size: var(--font-size-body-md, 16px);
+}
+
+/* Layout de 2 columnas */
+.cart-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.cart-items-section {
+    flex: 2; /* Toma más espacio que el resumen */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---------------------------------
+   TARJETAS DE LOS PRODUCTOS
+------------------------------------ */
+.cart-item-card {
+    display: flex;
+    background-color: var(--color-surface-container-lowest, #ffffff);
+    border-radius: var(--radius-lg, 12px);
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* Sombra muy suave de la foto */
+    border: 1px solid var(--color-surface-variant, #e3e2e0);
+    position: relative;
+    gap: 20px;
+}
+
+/* Botón X de eliminar esquinado */
+.btn-remove-item {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.btn-remove-item:hover {
+    color: var(--color-error, #ba1a1a);
+}
+
+.cart-item-image {
+    width: 140px;
+    height: 140px;
+    background-color: #111; /* Fondo muy oscuro como en las fotos de los instrumentos */
+    border-radius: var(--radius-sm, 6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.cart-item-image img {
+    height: 100%;
+    object-fit: cover; /* Para la guitarra que es alargada */
+}
+
+.cart-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cart-item-category {
+    display: inline-block;
+    background-color: var(--color-secondary-fixed, #ffdcbd);
+    color: var(--color-on-secondary-fixed-variant, #663d0b);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 99px;
+    width: max-content;
+    margin-bottom: 8px;
+}
+
+.cart-item-title {
+    font-family: var(--font-heading, "Noto Serif", serif);
+    font-size: var(--font-size-headline-md, 20px);
+    color: var(--color-on-surface);
+    margin: 0 0 6px 0;
+}
+
+.cart-item-desc {
+    color: var(--color-text-muted);
+    font-size: 13px;
+    margin: 0 0 20px 0;
+}
+
+.cart-item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+/* Controles de cantidad gris claro idénticos al mockup */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    background-color: #efeeec;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+.quantity-controls button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-controls button:hover {
+    color: var(--color-on-surface);
+}
+
+.quantity-display {
+    font-size: 14px;
+    font-weight: 600;
+    width: 24px;
+    text-align: center;
+}
+
+/* Precio granate */
+.cart-item-price {
+    font-family: var(--font-heading, "Noto Serif", serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-primary, #b32821);
+}
+
+/* ---------------------------------
+   CAJA DE RESUMEN (DERECHA)
+------------------------------------ */
+.cart-summary-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--color-surface-container-low, #f4f3f1);
+    border-radius: var(--radius-lg, 12px);
+    padding: 30px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.cart-summary-section h2 {
+    font-family: var(--font-heading, "Noto Serif", serif);
+    font-size: 20px;
+    margin: 0 0 25px 0;
+    color: var(--color-on-surface);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--color-on-surface-variant);
+}
+
+.summary-row strong {
+    color: var(--color-on-surface);
+}
+
+.summary-shipping-info {
+    font-style: italic;
+    color: var(--color-text-muted);
+}
+
+.summary-divider {
+    height: 1px;
+    background-color: var(--color-surface-variant, #e3e2e0);
+    margin: 20px 0;
+}
+
+.summary-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-heading, "Noto Serif", serif);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.summary-total-price {
+    font-size: 24px;
+    color: var(--color-primary, #b32821);
+}
+
+/* Botón Rojo Principal de "Continuar a Pago" */
+.btn-checkout {
+    width: 100%;
+    background-color: #b32821; /* Granate fijo por foto */
+    color: white;
+    border: none;
+    border-radius: var(--radius-md, 8px);
+    padding: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    font-family: var(--font-body);
+}
+
+.btn-checkout:hover {
+    opacity: 0.9;
+}
+
+.checkout-security {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+    font-size: 11px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.lock-icon {
+    font-size: 12px;
+}
+
+/* Mensaje y enlace si el carrito está vacío */
+.empty-cart-message {
+    text-align: center;
+    padding: 60px;
+    background-color: var(--color-surface-container-low);
+    border-radius: 12px;
+}
+
+.empty-cart-message a {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* ---------------------------------
+   RESPONSIVO / MÓVIL
+------------------------------------ */
+@media (max-width: 900px) {
+    .cart-layout {
+        flex-direction: column;
+    }
+    .cart-summary-section {
+        position: static;
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .cart-item-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .cart-item-image {
+        width: 100%;
+        height: 200px;
+    }
+    .btn-remove-item {
+        right: 15px;
+    }
+    .cart-item-category {
+        margin: 0 auto 10px auto;
+    }
+    .cart-item-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

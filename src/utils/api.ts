@@ -1,6 +1,4 @@
-// const API_URL = 'http://localhost:2323/api';
-const API_URL = 'https://unidad-5-pi.vercel.app'
-
+const API_URL = 'http://localhost:2323/api';
 
 /**
  * Función genérica para hacer peticiones al backend.
@@ -9,9 +7,9 @@ const API_URL = 'https://unidad-5-pi.vercel.app'
 export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     const token = localStorage.getItem('token');
 
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
         'Content-Type': 'application/json',
-        ...options.headers,
+        ...(options.headers as Record<string, string>),
     };
 
     if (token) {

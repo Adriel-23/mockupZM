@@ -1,17 +1,20 @@
 import { NavLink } from "react-router-dom"
 import MainLayout from "../../components/layout/MainLayout/MainLayout"
 import ProductCard from "../../components/ui/ProductCard"
-import { featuredProducts } from "../../data/products"
+import { useProducts } from "../../hooks/useProducts"
 import './HomePage.css'
 
 function HomePage() {
+    const { products, isLoading, error } = useProducts();
+    const featuredProducts = products.slice(0, 4);
+
     return (
         <MainLayout>
             <div className="hero-section">
                 <div className="hero-slogan">
                     <h2>El Arte del Sonido Perfecto</h2>
                     <p>Descubre nuestra colección curada de instrumentos premium. Para estudiantes apasionados y profesionales exigentes que buscan calidad, textura y tono inigualable.</p>
-                    <NavLink to="/all-products" className="btn-primary">EXPLORAR COLECCIÓN</NavLink>
+                    <NavLink to="/catalog" className="btn-primary">EXPLORAR COLECCIÓN</NavLink>
                 </div>
             </div>
 
@@ -20,10 +23,10 @@ function HomePage() {
                     <h2>Categorías Populares</h2>
                     <div className="divider"></div>
                 </div>
-                
+
                 <div className="categories-grid">
                     {/* Tarjeta 1 - Ancha */}
-                    <div className="category-card card-wide" style={{backgroundImage: "url('https://i.pinimg.com/1200x/3c/70/48/3c7048c29ea8047f5080237fd8c36b8d.jpg')"}}>
+                    <div className="category-card card-wide" style={{ backgroundImage: "url('https://i.pinimg.com/1200x/3c/70/48/3c7048c29ea8047f5080237fd8c36b8d.jpg')" }}>
                         <div className="category-content">
                             <h3>Pianos de Cola</h3>
                             <p>Elegancia acústica y resonancia profunda.</p>
@@ -31,21 +34,21 @@ function HomePage() {
                     </div>
 
                     {/* Tarjeta 2 - Angosta */}
-                    <div className="category-card card-narrow" style={{backgroundImage: "url('https://i.pinimg.com/1200x/80/59/ab/8059ab309942ec33e8bed203d662deb2.jpg')"}}>
+                    <div className="category-card card-narrow" style={{ backgroundImage: "url('https://i.pinimg.com/1200x/80/59/ab/8059ab309942ec33e8bed203d662deb2.jpg')" }}>
                         <div className="category-content">
                             <h3>Guitarras Eléctricas</h3>
                         </div>
                     </div>
 
                     {/* Tarjeta 3 - Angosta */}
-                    <div className="category-card card-narrow" style={{backgroundImage: "url('https://i.pinimg.com/1200x/38/89/0c/38890c129c9d7b03a663c59f7316de65.jpg')"}}>
+                    <div className="category-card card-narrow" style={{ backgroundImage: "url('https://i.pinimg.com/1200x/38/89/0c/38890c129c9d7b03a663c59f7316de65.jpg')" }}>
                         <div className="category-content">
                             <h3>Vientos de Metal</h3>
                         </div>
                     </div>
 
                     {/* Tarjeta 4 - Ancha */}
-                    <div className="category-card card-wide" style={{backgroundImage: "url('https://i.pinimg.com/736x/bf/ab/17/bfab17530d28821905ab811b65fc584f.jpg')"}}>
+                    <div className="category-card card-wide" style={{ backgroundImage: "url('https://i.pinimg.com/736x/bf/ab/17/bfab17530d28821905ab811b65fc584f.jpg')" }}>
                         <div className="category-content">
                             <h3>Cuerdas Clásicas</h3>
                             <p>Violines, violonchelos y contrabajos de luthier.</p>
@@ -63,9 +66,15 @@ function HomePage() {
                     <NavLink to="/catalog" className="featured-link">Ver todo el catálogo &rarr;</NavLink>
                 </div>
                 <div className="featured-grid">
-                    {featuredProducts.map((product) => (
-                        <ProductCard key={product.id} {...product} />
-                    ))}
+                    {isLoading ? (
+                        <p>Cargando productos...</p>
+                    ) : error ? (
+                        <p>{error}</p>
+                    ) : (
+                        featuredProducts.map((product) => (
+                            <ProductCard key={product.id} {...product} />
+                        ))
+                    )}
                 </div>
             </div>
 

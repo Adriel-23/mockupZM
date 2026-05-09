@@ -1,12 +1,14 @@
 import { useSearchParams } from 'react-router-dom';
 import MainLayout from '../../components/layout/MainLayout/MainLayout';
 import ProductCard from '../../components/ui/ProductCard';
-import { allProducts } from '../../data/products';
+import { useProducts } from '../../hooks/useProducts';
 import './CatalogPage.css';
 
 function CatalogPage() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q') || '';
+    const { products: allProducts, isLoading, error } = useProducts();
+
     const filteredProducts = allProducts.filter(product => {
         const textToSearch = query.toLowerCase();
         const matchTitle = product.title.toLowerCase().includes(textToSearch);
@@ -49,7 +51,11 @@ function CatalogPage() {
                         </div>
                     </div>
 
-                    {filteredProducts.length > 0 ? (
+                    {isLoading ? (
+                        <div className="catalog-loading">Cargando catálogo...</div>
+                    ) : error ? (
+                        <div className="catalog-error">{error}</div>
+                    ) : filteredProducts.length > 0 ? (
                         <div className="catalog-products-grid">
                             {filteredProducts.map((product) => (
                                 <ProductCard key={product.id} {...product} />

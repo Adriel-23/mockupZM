@@ -1,28 +1,73 @@
 import { useParams, NavLink, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import MainLayout from '../../components/layout/MainLayout/MainLayout';
 import ProductCard from '../../components/ui/ProductCard';
-import { allProducts, featuredProducts } from '../../data/products';
+import { useProducts } from '../../hooks/useProducts';
+import { productService } from '../../services/productService';
 import { useCart } from '../../Context/CartContext';
+import type { Product } from '../../types/product';
 import './ProductDetailPage.css';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 
 function ProductDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart();
 
-    useEffect(() =>{
-        window.scrollTo(0, 0);
-    },[id]);
+    // Para los productos relacionados (usamos el hook que ya tenemos)
+    const { products } = useProducts();
+    const featuredProducts = products.slice(0, 4);
 
-    const selectedProduct = allProducts.find(p => p.id === id);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    if (!selectedProduct) {
+    useEffect(() => {
+        const loadProduct = async () => {
+            if (!id) return;
+            try {
+                setIsLoading(true);
+                const response = await productService.getById(id);
+                
+                // Normalizamos el producto para que siempre tenga 'id' (viniendo de MongoDB _id)
+                const productData = response.data;
+                if (productData && !productData.id) {
+                    productData.id = productData._id;
+                }
+                
+                setSelectedProduct(productData);
+                setError(null);
+            } catch (err: any) {
+                setError(err.message || 'Error al cargar el producto');
+                setSelectedProduct(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadProduct();
+    }, [id]);
+
+    const handleAddToCart = () => {
+        if (selectedProduct) {
+            addToCart(selectedProduct);
+        }
+    }
+
+    if (isLoading) {
         return (
             <MainLayout>
                 <div className="product-not-found-container">
-                    <h2>Producto no encontrado</h2>
+                    <h2>Cargando producto...</h2>
+                </div>
+            </MainLayout>
+        );
+    }
+
+    if (!selectedProduct || error) {
+        return (
+            <MainLayout>
+                <div className="product-not-found-container">
+                    <h2>{error || "Producto no encontrado"}</h2>
                     <button onClick={() => navigate('/catalog')} className="btn-add-primary btn-back-catalog">
                         Volver al Catálogo
                     </button>
@@ -31,23 +76,19 @@ function ProductDetailPage() {
         );
     }
 
-    const handleAddToCart = () => {
-        addToCart(selectedProduct);
-        toast.success(`${selectedProduct.title} añadido al carrito!`);
-    }
     return (
         <MainLayout>
             <div className="product-detail-container">
-                
+
                 <nav className="breadcrumbs">
-                    <NavLink to="/">Inicio</NavLink> &gt; 
-                    <NavLink to="/catalog">Catálogo</NavLink> &gt; 
-                    <NavLink to={`/catalog?q=${selectedProduct.category}`}>{selectedProduct.category}</NavLink> &gt; 
+                    <NavLink to="/">Inicio</NavLink> &gt;
+                    <NavLink to="/catalog">Catálogo</NavLink> &gt;
+                    <NavLink to={`/catalog?q=${selectedProduct.category}`}>{selectedProduct.category}</NavLink> &gt;
                     <span>{selectedProduct.title}</span>
                 </nav>
 
                 <div className="product-hero-layout">
-                    
+
                     <div className="product-gallery">
                         <div className="main-image-container">
                             <img src={selectedProduct.image} alt={selectedProduct.title} />
@@ -65,12 +106,12 @@ function ProductDetailPage() {
                             <span className="badge category-badge">{selectedProduct.category}</span>
                             <span className="badge bestseller-badge">Destacado</span>
                         </div>
-                        
+
                         <h1 className="product-page-title">{selectedProduct.title}</h1>
                         <p className="product-page-desc">
                             {selectedProduct.description || "Un instrumento excepcional diseñado para los mejores músicos. Descubre su tono y calidad de construcción premium."}
                         </p>
-                        
+
                         <div className="product-pricing">
                             <span className="current-price">
                                 {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(selectedProduct.price)}

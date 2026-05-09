@@ -1,36 +1,38 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import MainLayout from '../../components/layout/MainLayout/MainLayout';
-import { useAuth } from '../../Context/AuthContext';
+/* import { useAuth } from '../../Context/AuthContext'; */
 import { authService } from '../../services/authService';
 import { toast } from 'react-toastify';
-import './loginPage.css';
+import './loginPage.css'; // Podemos reusar los estilos del login
 
-export function LoginPage() {
+export function RegisterPage() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
-    const { login } = useAuth();
+
+    /*     const { login } = useAuth(); */
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     // Si viene de otra página (por ejemplo el carrito), regresarlo ahí después de loguearse
-    const from = location.state?.from?.pathname || '/';
+    /*     const from = location.state?.from?.pathname || '/'; */
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
 
         try {
-            const response = await authService.login({ email, password });
+            // Registrar usuario
+            const response = await authService.register({ name, email, password });
 
-            // El backend devuelve { ok: true, data: { authToken, user } }
-            login(response.data.authToken, response.data.user);
-            toast.success('¡Sesión iniciada con éxito!');
-            navigate(from, { replace: true });
+            toast.success(response.message || '¡Cuenta creada! Revisa tu email para verificarla.');
+
+            // Redirigimos al login ya que el usuario debe verificar su email antes de entrar
+            navigate('/login', { state: { from: location.state?.from } });
         } catch (error: any) {
-            toast.error(error.message || 'Error al iniciar sesión');
+            toast.error(error.message || 'Error al crear la cuenta');
         } finally {
             setIsLoading(false);
         }
@@ -41,51 +43,57 @@ export function LoginPage() {
             <div className="login-page-container">
                 <div className="login-card">
                     <div className="login-header">
-                        <h2>Bienvenido de Vuelta</h2>
-                        <p>Ingresa a tu cuenta de Zona Música</p>
+                        <h2>Crear una Cuenta</h2>
+                        <p>Únete a Zona Música</p>
                     </div>
 
                     <form className="login-form" onSubmit={handleSubmit}>
                         <div className="form-group">
+                            <label htmlFor="name">Nombre Completo</label>
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Tu nombre"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                disabled={isLoading}
+                            />
+                        </div>
+
+                        <div className="form-group">
                             <label htmlFor="email">Correo Electrónico</label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                placeholder="tu@correo.com" 
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="tu@correo.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                required 
+                                required
                                 disabled={isLoading}
                             />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="password">Contraseña</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                placeholder="••••••••" 
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="••••••••"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                required 
+                                required
                                 disabled={isLoading}
                             />
                         </div>
 
-                        <div className="form-options">
-                            <label className="remember-me">
-                                <input type="checkbox" /> Recordarme
-                            </label>
-                            <a href="#" className="forgot-password">¿Olvidaste tu contraseña?</a>
-                        </div>
-
                         <button type="submit" className="btn-add-primary login-btn" disabled={isLoading}>
-                            {isLoading ? 'Iniciando...' : 'Iniciar Sesión'}
+                            {isLoading ? 'Registrando...' : 'Crear Cuenta'}
                         </button>
                     </form>
 
                     <div className="login-footer">
-                        <p>¿No tienes una cuenta? <NavLink to="/register" state={{ from: location.state?.from }}>Regístrate aquí</NavLink></p>
+                        <p>¿Ya tienes una cuenta? <NavLink to="/login" state={{ from: location.state?.from }}>Inicia Sesión aquí</NavLink></p>
                     </div>
                 </div>
             </div>

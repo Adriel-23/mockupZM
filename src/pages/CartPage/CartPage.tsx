@@ -1,11 +1,17 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/layout/MainLayout/MainLayout';
 import { useCart } from '../../Context/CartContext';
+import { useAuth } from '../../Context/AuthContext';
+import { orderService } from '../../services/orderService';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 import './CartPage.css';
 
 function CartPage() {
-    // 1. Nos traemos la lista de items y nuestras tres funciones desde el "Contexto Global"
-    const { cartItems, removeFromCart, updateQuantity } = useCart();
+    const { cartItems, removeFromCart, updateQuantity, clearCartLocal } = useCart();
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
     // 2. Calculamos los totales usando reduce (pura matemática de JavaScript)
     const subtotal = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
@@ -13,8 +19,27 @@ function CartPage() {
     const taxes = subtotal * 0.08; 
     const total = subtotal + taxes;
 
-    // Calculamos cuantos items hay en total sumando las cantidades
     const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+    const handleCheckout = async () => {
+        if (!isAuthenticated) {
+            toast.warning('Inicia sesión para finalizar tu compra');
+            navigate('/login');
+            return;
+        }
+
+        setIsCheckingOut(true);
+        try {
+            await orderService.createOrder();
+            clearCartLocal();
+            toast.success('¡Pedido realizado con éxito!');
+            navigate('/orders');
+        } catch (error: any) {
+            toast.error(error.message || 'Error al procesar el pedido');
+        } finally {
+            setIsCheckingOut(false);
+        }
+    };
 
     return (
         <MainLayout>
@@ -105,8 +130,8 @@ function CartPage() {
                                 </span>
                             </div>
 
-                            <button className="btn-checkout">
-                                Continuar a Pago &rarr;
+                            <button className="btn-checkout" onClick={handleCheckout} disabled={isCheckingOut || cartItems.length === 0}>
+                                {isCheckingOut ? 'Procesando...' : 'Finalizar Compra \u2192'}
                             </button>
                             
                             <div className="checkout-security">

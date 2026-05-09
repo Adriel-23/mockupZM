@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import './Header.css'
 import profileIcon from '../../../assets/svg/profile.svg'
 import cartIcon from '../../../assets/svg/cart.svg'
-
+import { useAuth } from '../../../Context/AuthContext';
 function Header() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
+
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         setSearchTerm(searchParams.get('q') || '');
@@ -43,7 +45,7 @@ function Header() {
                 <NavLink to='/cart' className="action-icon">
                     <img src={cartIcon} alt="Cart" />
                 </NavLink>
-                <NavLink to='/login' className="action-icon">
+                <NavLink to={isAuthenticated ? '/profile' : '/login'} className="action-icon" title={isAuthenticated ? "Mi Perfil" : "Iniciar Sesión"}>
                     <img src={profileIcon} alt="Profile" />
                 </NavLink>
             </div>

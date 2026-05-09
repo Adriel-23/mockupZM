@@ -12,20 +12,25 @@
     background-repeat: no-repeat;
     color: var(--color-surface);
 }
+
 .hero-slogan {
-    background-color: rgba(144, 124, 97, 0.328);
+    background-color: rgba(144, 124, 97, 0.815);
     padding: 2rem;
     border-radius: var(--radius-lg);
     max-width: 600px;
+    color: var(--color-on-surface);
 }
+
 .hero-slogan h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
 }
+
 .hero-slogan p {
     font-size: 1rem;
     margin-bottom: 1.5rem;
 }
+
 .hero-slogan a {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -35,6 +40,7 @@
     border-radius: var(--radius-md);
     transition: background-color 0.3s ease;
 }
+
 .hero-slogan a:hover {
     background-color: var(--color-outline);
 }
@@ -83,10 +89,21 @@
 }
 
 
-.categories-grid .card-wide:nth-child(1) { grid-column: span 2; }
-.categories-grid .card-narrow:nth-child(2) { grid-column: span 1; }
-.categories-grid .card-narrow:nth-child(3) { grid-column: span 1; }
-.categories-grid .card-wide:nth-child(4) { grid-column: span 2; }
+.categories-grid .card-wide:nth-child(1) {
+    grid-column: span 2;
+}
+
+.categories-grid .card-narrow:nth-child(2) {
+    grid-column: span 1;
+}
+
+.categories-grid .card-narrow:nth-child(3) {
+    grid-column: span 1;
+}
+
+.categories-grid .card-wide:nth-child(4) {
+    grid-column: span 2;
+}
 
 
 .category-card {
@@ -120,8 +137,8 @@
 
 .category-content {
     position: relative;
-    z-index: 2; 
-    color: white; 
+    z-index: 2;
+    color: white;
     text-align: left;
 }
 
@@ -141,12 +158,12 @@
 
 @media (max-width: 768px) {
     .categories-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
-    
+
     .categories-grid .card-wide,
     .categories-grid .card-narrow {
-        grid-column: span 1; 
+        grid-column: span 1;
     }
 }
 
@@ -272,7 +289,7 @@
 
 .category-content {
     position: relative;
-    z-index: 2; 
+    z-index: 2;
     color: white;
     text-align: left;
 }
@@ -292,12 +309,12 @@
 
 @media (max-width: 768px) {
     .categories-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
-    
+
     .categories-grid .card-wide,
     .categories-grid .card-narrow {
-        grid-column: span 1; 
+        grid-column: span 1;
     }
 }
 
@@ -309,7 +326,8 @@
     align-items: center;
     justify-content: center;
 }
-.about-us-image img{
+
+.about-us-image img {
     z-index: -1;
     width: 400px;
 }

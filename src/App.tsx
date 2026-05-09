@@ -9,6 +9,10 @@ import CartPage from './pages/CartPage/CartPage.tsx';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage.tsx';
 import { LoginPage } from './pages/authPage/loginPage.tsx';
 
+import { RegisterPage } from './pages/authPage/registerPage.tsx';
+import { OrdersPage } from './pages/OrdersPage/OrdersPage.tsx';
+import { ProfilePage } from './pages/ProfilePage/ProfilePage.tsx';
+
 function App() {
   return (
     <>
@@ -19,6 +23,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/orders" element={<OrdersPage />} />
         <Route path="/catalog" element={<CatalogPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />

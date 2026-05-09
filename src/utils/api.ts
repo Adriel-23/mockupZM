@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:2323/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:2323/api';
 
 /**
  * Función genérica para hacer peticiones al backend.
